@@ -20,7 +20,7 @@
         <extension module="org.jboss.as.remoting"/>
         <extension module="org.jboss.as.sar"/>
         <extension module="org.jboss.as.security"/>
-       
+       <extension module="org.jboss.as.transactions"/>
         <extension module="org.jboss.as.webservices"/>
         <extension module="org.jboss.as.weld"/>
         <extension module="org.wildfly.extension.batch.jberet"/>
@@ -357,12 +357,22 @@
                 <!-- no additional security domains configured --><!-- ##ADDITIONAL_SECURITY_DOMAINS## -->
             </security-domains>
         </subsystem>
+         
         <subsystem xmlns="urn:jboss:domain:singleton:1.0">
             <singleton-policies default="default">
                 <singleton-policy name="default" cache-container="server">
                     <simple-election-policy/>
                 </singleton-policy>
             </singleton-policies>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:transactions:3.0">
+            <core-environment node-identifier="${jboss.node.name}">
+                <process-id>
+                    <uuid/>
+                </process-id>
+            </core-environment>
+            <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
+            <!-- ##JDBC_STORE## -->
         </subsystem>
         
         <subsystem xmlns="urn:jboss:domain:undertow:3.1">
